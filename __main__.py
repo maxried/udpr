@@ -276,7 +276,7 @@ def client() -> None:
 
     l('Discovered ' + str(len(received_unique_packets)) + ' devices:')
 
-    if DISPLAY_MODE == 'edgedetail':
+    if DISPLAY_MODE == 'edge':
         for unique_device in received_unique_packets:
             print_edge_detail_style(unique_device)
             l('')
