@@ -5,25 +5,28 @@
 
 import sys
 
-DEBUGGING = True
+DEBUGGING: bool = True
 
 
-def set_debugging(v):
+def set_debugging(v: bool) -> None:
+    """Enable or disable debugging output"""
+
     global DEBUGGING
     DEBUGGING = v
 
-def l(message):
+
+def l(message: str) -> None:
     """Log a message"""
 
     print(message, file=sys.stdout)
 
 
-def e(message):
+def e(message: str) -> None:
     """Print an error"""
     print(message, file=sys.stderr)
 
 
-def d(message):
+def d(message: str) -> None:
     """Maybe print debugging info"""
     if DEBUGGING:
         prefixed = 'D: ' + '\nD: '.join(filter(bool, message.split('\n')))
