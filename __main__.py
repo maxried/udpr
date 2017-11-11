@@ -60,6 +60,7 @@ def print_edge_detail_style(packet: UbntTLV) -> None:
     uptime: str = ''
     addresses: str = ''
 
+
     for t in packet.TLVs:
         cur_type: int = t.Type
         if cur_type == 0x0b:  # hostname
@@ -277,9 +278,11 @@ def client() -> None:
     l('Discovered ' + str(len(received_unique_packets)) + ' devices:')
 
     if DISPLAY_MODE == 'edge':
+        l('----------------------------------------------------')
         for unique_device in received_unique_packets:
             print_edge_detail_style(unique_device)
-            l('')
+            l('----------------------------------------------------')
+        l('')
     elif DISPLAY_MODE == 'oneline':
         l('{:17}  {:15}  {:10} '.format('Hardware Address', 'IP address', 'Model') + 'hostname')
         for unique_device in received_unique_packets:
