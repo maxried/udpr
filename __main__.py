@@ -285,7 +285,7 @@ def client() -> None:
         for unique_device in received_unique_packets:
             print_one_line(unique_device)
 
-    elif DISPLAY_MODE == 'everthing':
+    elif DISPLAY_MODE == 'everything':
         for unique_device in received_unique_packets:
             print_edge_detail_style(unique_device)
 
