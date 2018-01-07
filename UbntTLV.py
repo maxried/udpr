@@ -57,7 +57,8 @@ class UbntTLV:
         payload = b''
 
         for t in self.TLVs:
-            payload += t.to_byte_array()
+            c_payload = t.to_byte_array()
+            payload += c_payload if c_payload is not None else b''
 
         packed = pack('!BBH', self.Version, self.Opcode, len(payload)) + payload
 

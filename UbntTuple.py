@@ -70,17 +70,17 @@ class UbntTuple:
 
         if self.Type in (0x03, 0x0b, 0x0c, 0x15, 0x16, 0x1b):  # str
             return self.Value.decode(encoding='iso-8859-1')
-        elif self.Type == 0x01 or self.Type == 0x13:
+        elif (self.Type == 0x01 or self.Type == 0x13) and len(self.Value) == 6:
             return '{0[0]:02X}:{0[1]:02X}:{0[2]:02X}:{0[3]:02X}:{0[4]:02X}:{0[5]:02X}'.format(self.Value)
-        elif self.Type == 0x02:
+        elif self.Type == 0x02 and len(self.Value) == 10:
             return \
                 ('hwaddr: {0[0]:02X}:{0[1]:02X}:{0[2]:02X}:{0[3]:02X}:{0[4]:02X}:{0[5]:02X}, ipv4: ' +
                  '{0[6]:d}.{0[7]:d}.{0[8]:d}.{0[9]:d}').format(self.Value)
-        elif self.Type == 0x0a:
+        elif self.Type == 0x0a and len(self.Value) == 4:
             return str(unpack('!I', self.Value)[0]) + ' seconds'
-        elif self.Type == 0x12:
+        elif self.Type == 0x12 and len(self.Value) == 4:
             return str(unpack('!I', self.Value)[0])
-        elif self.Type in (0x17, 0x18, 0x19, 0x1a):
+        elif self.Type in (0x17, 0x18, 0x19, 0x1a) and len(self.Value) == 1:
             return str(int.from_bytes(self.Value, byteorder='big') == 1)
         else:
             return str(self.Value)
@@ -91,4 +91,6 @@ class UbntTuple:
 
     def to_byte_array(self):
         """Convert myself to a bytearray ready for sending"""
+        if self.Type > 255 or self.Type < 0:
+            return None
         return pack('!BH', self.Type, len(self.Value)) + self.Value
